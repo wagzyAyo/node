@@ -1,0 +1,2 @@
+Data read from input file: Sample text file. 
+ date created Mon Dec 04 2023 15:32:03 GMT+0100 (West Africa Standard Time)
