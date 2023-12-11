@@ -14,3 +14,7 @@ console.log(`Hey its my first node app!!!`)
 //require - function to use modules (CommonJs)
 // module - info about current module (file)
 // process - info about env where the program is beign excuted
+console.log(process)
+setInterval(() => {
+    console.log('Hello word')
+}, 1000)
