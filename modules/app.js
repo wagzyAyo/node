@@ -1,25 +1,8 @@
-const {readFile, writeFile} = require('fs')
+const http = require('node:http')
 
-readFile('../content/first.txt','utf-8', (err, result) => {
-    if (err){
-        console.log(err)
-    }
-    const first = result
-
-    readFile('../content/second.txt', 'utf-8', (err, result) => {
-        if (err){
-            console.log(err)
-        }
-        second = result
-        writeFile('../content/result-async.txt', `Here is the result: ${first}, ${second}`
-        ,(err, result) => {
-            if (err){
-                console.log(err)
-                return
-            }
-            console.log(result)
-        }
-        )
-    })
-  
+const server = http.createServer((req, res) => {
+    res.write('Welcome to home page')
+    res.end()
 })
+
+server.listen(5000)
