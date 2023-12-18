@@ -1,10 +1,25 @@
-const { readFileSync, writeFileSync, readFile} = require('fs')
-const { encode } = require('querystring')
+const {readFile, writeFile} = require('fs')
 
-const first = readFileSync('../content/first.txt', 'utf-8')
-const second = readFileSync('../content/second.txt', 'utf-8')
+readFile('../content/first.txt','utf-8', (err, result) => {
+    if (err){
+        console.log(err)
+    }
+    const first = result
 
-// console.log(first, second)
-
-writeFileSync('../content/result-sync.txt', 
-`Here is the result: ${first}, ${second}`)
+    readFile('../content/second.txt', 'utf-8', (err, result) => {
+        if (err){
+            console.log(err)
+        }
+        second = result
+        writeFile('../content/result-async.txt', `Here is the result: ${first}, ${second}`
+        ,(err, result) => {
+            if (err){
+                console.log(err)
+                return
+            }
+            console.log(result)
+        }
+        )
+    })
+  
+})
