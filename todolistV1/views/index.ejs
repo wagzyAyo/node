@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week Day</title>
+    <title>To Do List App</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-   <h1><%= dayOfTheWeek %></h1>
-   <% for (let i = 0; i < taskItems.length; i++ ) { %>
-    <ul>
-        <li> <%= taskItems[i] %> </li>
-    </ul>
-   <% } %>
+    <div class="box" id="heading">
+        <h1><%= dayOfTheWeek %></h1>
+    </div>
+   
+    <div class="box">
+        <% for (let i = 0; i < taskItems.length; i++ ) { %>
+            <div class="item">
+                <input type="checkbox">
+                <p> <%= taskItems[i] %> </p>
+            </div>
+            
+           <% } %>
 
-
-   <form action="/" method="post">
-    <input type="text" name="task">
-    <button type="submit">Add</button>
-   </form>
+        
+    <form action="/" method="post" class="item">
+        <input type="text" name="task" placeholder="New Item" autocomplete="off">
+        <button type="submit">+</button>
+    </form>
+    </div>
     
 </body>
 </html>
