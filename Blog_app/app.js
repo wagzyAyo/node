@@ -28,7 +28,9 @@ app.get('/contact', (req, res)=> {
   res.render('contact', {content: contactContent});
 });
 
-
+app.get('/compose', (req, res)=> {
+  res.render('compose');
+})
 
 
 
