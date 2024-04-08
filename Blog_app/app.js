@@ -14,10 +14,11 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+const posts = []
 
 
 app.get('/', (req, res)=> {
-  res.render('home', {content: homeStartingContent})
+  res.render('home', {content: homeStartingContent, blog: posts})
 });
 
 app.get('/about', (req, res)=> {
@@ -41,7 +42,8 @@ app.post('/compose', (req, res)=> {
     title: title,
     content: content
   }
-  console.log(post)
+  posts.push(post);
+  res.redirect('/')
 })
 
 
