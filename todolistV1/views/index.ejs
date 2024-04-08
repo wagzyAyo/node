@@ -6,6 +6,11 @@
     <title>Week Day</title>
 </head>
 <body>
-    <h1> It's <%= dayOfTheWeek %></h1>
+    <% if (dayOfTheWeek === 'Monday'){ %>
+        <h1 style="color: purple;">Its <%= dayOfTheWeek %> </h1>
+    <% }else{ %>
+        <h1 style="color: blue;"> It's <%= dayOfTheWeek %></h1>
+    <% } %>
+    
 </body>
 </html>
