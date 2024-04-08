@@ -1,13 +1,23 @@
 const express = require('express');
-const parser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const app = express();
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({extended: true}));
+
+let tasks = []
 
 const day = new Date();
-const today = day.getDay();
-let weekDay = '';
 
+const options = {
+    weekDay: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+}
+
+const today = day.toLocaleDateString('en-US', options)
+console.log(today)
 
 // if (today === 0 || today === 6){
 //     weekDay = 'Weekend'
@@ -15,38 +25,23 @@ let weekDay = '';
 //     weekDay = 'Week day'
 // }
 
-switch (today) {
-    case 0:
-        weekDay = 'Sunday'
-        break;
-    case 1:
-        weekDay = 'Monday';
-        break;
-    case 2:
-        weekDay = 'Tuesday';
-        break;
-    case 3:
-        weekDay = 'Wednessday';
-        break;
-    case 4:
-        weekDay = 'Thursday';
-        break;
-    case 5:
-        weekDay = 'Friday';
-        break;
-    case 6:
-        weekDay = 'Saturday'
 
-    default:
-        console.log('Day Not recognized!.')
-        break;
-}
 
 
 app.get('/', (req, res)=> {
-    res.render('index', {dayOfTheWeek: weekDay})
+    res.render('index', {dayOfTheWeek: today, taskItems: tasks})
 })
 
+app.post('/', (req, res)=> {
+    //Get The value of task from index.ejs through post request
+    //and push to the tasks array
+    //then redirect to the home route
+
+    const newTask = req.body.task;
+    tasks.push(newTask)
+
+    res.redirect('/');
+})
 
 app.listen(3000, ()=> {
     console.log('App listening on port 3000')

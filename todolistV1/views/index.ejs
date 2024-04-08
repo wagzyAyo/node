@@ -6,11 +6,18 @@
     <title>Week Day</title>
 </head>
 <body>
-    <% if (dayOfTheWeek === 'Monday'){ %>
-        <h1 style="color: purple;">Its <%= dayOfTheWeek %> </h1>
-    <% }else{ %>
-        <h1 style="color: blue;"> It's <%= dayOfTheWeek %></h1>
-    <% } %>
+   <h1><%= dayOfTheWeek %></h1>
+   <% for (let i = 0; i < taskItems.length; i++ ) { %>
+    <ul>
+        <li> <%= taskItems[i] %> </li>
+    </ul>
+   <% } %>
+
+
+   <form action="/" method="post">
+    <input type="text" name="task">
+    <button type="submit">Add</button>
+   </form>
     
 </body>
 </html>
