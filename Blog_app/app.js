@@ -31,6 +31,10 @@ app.get('/contact', (req, res)=> {
 
 app.get('/compose', (req, res)=> {
   res.render('compose');
+});
+
+app.get('/posts/:blog', (req, res)=> {
+  console.log(req.params.blog)
 })
 
 
