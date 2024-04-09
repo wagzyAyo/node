@@ -34,7 +34,13 @@ app.get('/compose', (req, res)=> {
 });
 
 app.get('/posts/:blog', (req, res)=> {
-  console.log(req.params.blog)
+  const param = req.params.blog
+  for (let i=0; i<posts.length; i++){
+    if (param === posts[i].title){
+      console.log('Match Found!')
+    }
+  }
+
 })
 
 
@@ -48,7 +54,7 @@ app.post('/compose', (req, res)=> {
   }
   posts.push(post);
   res.redirect('/')
-})
+});
 
 
 
