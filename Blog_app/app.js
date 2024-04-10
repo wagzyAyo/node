@@ -18,8 +18,12 @@ app.use(express.static("public"));
 const posts = []
 
 
+
 app.get('/', (req, res)=> {
-  res.render('home', {content: homeStartingContent, blog: posts})
+  res.render('home', {
+    content: homeStartingContent, 
+    blog: posts
+  })
 });
 
 app.get('/about', (req, res)=> {
@@ -52,10 +56,12 @@ app.get('/posts/:blog', (req, res)=> {
 app.post('/compose', (req, res)=> {
    const title = req.body.blog_title;
    const content = req.body.blog_content
+   const postSlice = content.slice(0, 100);
 
    const post = {
     title: title,
-    content: content
+    content: content,
+    contentSlice: postSlice
   }
   posts.push(post);
   res.redirect('/')
