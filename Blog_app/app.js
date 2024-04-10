@@ -39,11 +39,12 @@ app.get('/posts/:blog', (req, res)=> {
   const newParam = _.lowerCase(param)
   for (let i=0; i<posts.length; i++){
     if (newParam === _.lowerCase(posts[i].title)){
-      console.log('Match Found!')
+      var showPost = posts[i]
     } else {
       console.log('No Match found!')
     }
   }
+  res.render('post', {postToShow: showPost});
 
 })
 
