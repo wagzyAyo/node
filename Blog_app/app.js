@@ -61,7 +61,7 @@ app.post('/compose', (req, res)=> {
    const post = {
     title: title,
     content: content,
-    contentSlice: postSlice
+    //contentSlice: postSlice
   }
   posts.push(post);
   res.redirect('/')

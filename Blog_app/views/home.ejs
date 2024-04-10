@@ -3,6 +3,9 @@
 <p><%= content %> </p>
 <% blog.forEach( (element)=> { %>
     <h1><%= element.title %></h1>
-    <p><%= element.content.slice(0,100) + " ..." %></p>
+    <p>
+        <%= element.content.slice(0,100) + " ..." %>
+        <a href="posts/<%= element.title %>">Read more</a>
+    </p>
 <% }) %>
 <%- include('partials/footer') -%>
