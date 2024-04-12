@@ -29,4 +29,11 @@ const sheldon = new person({
     age: 23
 });
 
-person.insertMany([david, penny, leonard, sheldon])
+//person.insertMany([david, penny, leonard, sheldon])
+person.find((err, people)=>{
+    if (err){
+        console.log(err);
+    } else{
+        console.log(people)
+    }
+})
