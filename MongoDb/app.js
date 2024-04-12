@@ -30,10 +30,14 @@ const sheldon = new person({
 });
 
 //person.insertMany([david, penny, leonard, sheldon])
-person.find((err, people)=>{
-    if (err){
-        console.log(err);
-    } else{
-        console.log(people)
-    }
+
+Promise.all([david.save(), penny.save(), leonard.save(), sheldon.save()])
+.then(()=> {
+    return person.find({});
 })
+.then(peopleCollection=> {
+    console.log(peopleCollection);
+})
+.catch(err => {
+    console.error('Error:', err)
+});
