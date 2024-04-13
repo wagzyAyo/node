@@ -27,11 +27,29 @@ console.log(today)
 //     weekDay = 'Week day'
 // }
 
+mongoose.connect('mongodb://localhost:27017/todos');
+const todosSchema = mongoose.Schema({
+    name: String
+})
+
+const todoList = mongoose.model('todoList', todosSchema)
 
 
 
 app.get('/', (req, res)=> {
-    res.render('index', {dayOfTheWeek: today, taskItems: tasks})
+    const todoData = Promise.all()
+    .then(()=> {
+        const todoData = todoList.find({})
+        return todoList.find({});
+    })
+    .then(todos=> {
+        console.log(todos);
+    })
+    .catch(err => {
+        console.error('Error:', err)
+    });
+
+    res.render('index', {dayOfTheWeek: today, taskItems: todoData})
 })
 
 app.post('/', (req, res)=> {
@@ -41,7 +59,8 @@ app.post('/', (req, res)=> {
 
     const newTask = req.body.task;
     if (newTask.length > 0){
-        tasks.push(newTask)
+        const newTodo = new todoList({name: newTask})
+        newTodo.save()
     } else{
         console.log('New Task should contain actual word')
     }
