@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -39,7 +40,12 @@ app.post('/', (req, res)=> {
     //then redirect to the home route
 
     const newTask = req.body.task;
-    tasks.push(newTask)
+    if (newTask.length > 0){
+        tasks.push(newTask)
+    } else{
+        console.log('New Task should contain actual word')
+    }
+    
 
     res.redirect('/');
 })
