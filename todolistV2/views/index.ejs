@@ -12,11 +12,14 @@
     </div>
    
     <div class="box">
+        
         <% taskItems.forEach((data) => { %>
+            <form action="/delete" method="post">
             <div class="item">
-                <input type="checkbox">
+                <input type="checkbox" name="checkbox" value="<%=data._id%>" onChange="this.form.submit()">
                 <p> <%= data.name %> </p>
             </div>
+        </form>
         <% }); %>   
 
         

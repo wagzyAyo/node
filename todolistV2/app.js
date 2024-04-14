@@ -73,6 +73,21 @@ app.post('/', (req, res)=> {
     
 
     res.redirect('/');
+});
+
+app.post('/delete', (req,res)=>{
+    const itemChecked = req.body.checkbox;
+    async function deleteTask(){
+            return await todoList.findByIdAndDelete(itemChecked);
+    };
+
+    deleteTask()
+    .then(deleted=>{
+        console.log(deleted)
+        res.redirect('/')
+    }).catch(err=>{
+        console.log('Error deleting task', err)
+    })
 })
 
 app.listen(3000, ()=> {
