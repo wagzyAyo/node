@@ -37,19 +37,25 @@ const todoList = mongoose.model('todoList', todosSchema)
 
 
 app.get('/', (req, res)=> {
-    const todoData = Promise.all()
-    .then(()=> {
-        const todoData = todoList.find({})
-        return todoList.find({});
-    })
-    .then(todos=> {
-        console.log(todos);
-    })
-    .catch(err => {
-        console.error('Error:', err)
-    });
 
-    res.render('index', {dayOfTheWeek: today, taskItems: todoData})
+    async function getData() {
+        try {
+            const data = await todoList.find({});
+            return data;
+        } catch(err) {
+            console.log('Error: ',  err)
+        }
+    };
+
+    getData().then(todoData=>{
+        //console.log(todoData);
+        res.render('index', {dayOfTheWeek: today, taskItems: todoData})
+    }).catch(err=> {
+        console.log('Error occured will fetching data', err)
+    })
+    
+
+    
 })
 
 app.post('/', (req, res)=> {
