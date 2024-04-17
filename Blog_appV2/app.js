@@ -32,13 +32,14 @@ const blogPostSchema = new mongoose.Schema({
 
 const connectBlogData = mongoose.model('post', blogPostSchema);
 
+async function getPosts(){
+  return await connectBlogData.find({})
+};
 
 
 
 app.get('/', (req, res)=> {
-  async function getPosts(){
-    return await connectBlogData.find({})
-  };
+ 
 
   getPosts()
   .then(posts=>{
@@ -68,17 +69,18 @@ app.get('/compose', (req, res)=> {
 });
 
 app.get('/posts/:blog', (req, res)=> {
-  const param = req.params.blog;
-  const newParam = _.lowerCase(param)
-  for (let i=0; i<posts.length; i++){
-    if (newParam === _.lowerCase(posts[i].title)){
-      var showPost = posts[i]
-    } else {
-      console.log('No Match found!')
-    }
-  }
-  res.render('post', {postToShow: showPost});
+  const id = req.params.blog;
 
+async function params(){
+  return await connectBlogData.findOne({_id: id})
+}
+params()
+.then(post=>{
+  console.log(post)
+  res.render('post', {postToShow: post})
+}).catch(err=>{
+  console.log('Error getting post,' + err)
+})
 })
 
 
