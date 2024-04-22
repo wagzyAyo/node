@@ -16,10 +16,56 @@ mongoose.connect("mongodb://localhost:27017/secrets")
     console.log("Error connecting to database:"+ err)
 });
 
+
+const userSchema = mongoose.Schema({
+    email: String,
+    password: String
+});
+
+const User = mongoose.model('User', userSchema);
+
+
 app.get('/', (req,res)=>{
     res.render('home')
-})
+});
 
+app.get('/register', (req, res)=>{
+    res.render('register')
+});
+
+app.get('/login', (req, res)=>{
+    res.render('login')
+});
+
+app.post('/login', async (req,res)=>{
+    const email = req.body.username;
+    const password = req.body.password;
+
+    await User.findOne({email: email})
+    .then(foundUser=>{
+        if (foundUser.password === password){
+            res.render('secrets')
+        } else{
+            res.send({message: "Username and password do no match"})
+        }
+    }).catch(err=>{
+        console.log('No User found: '+ err)
+        res.redirect('/login')
+    })
+   
+});
+
+app.post('/register', (req,res)=>{
+    const email = req.body.username;
+    const password = req.body.password;
+
+    const newUser = new User({
+        email: email,
+        password: password
+    });
+    newUser.save()
+    res.render('secrets')
+})
 
 
 app.listen(3000, ()=>{
