@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const encrypt = require('mongoose-encryption')
 
 const app = express()
 app.set('view engine', 'ejs');
@@ -16,11 +17,16 @@ mongoose.connect("mongodb://localhost:27017/secrets")
     console.log("Error connecting to database:"+ err)
 });
 
+const secret = process.env.SECRETE;
+
+
 
 const userSchema = mongoose.Schema({
     email: String,
     password: String
 });
+
+userSchema.plugin(encrypt, {secret: secret, excludeFromEncryption: ['email']})
 
 const User = mongoose.model('User', userSchema);
 
