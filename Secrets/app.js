@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 require('dotenv').config();
 const mongoose = require('mongoose');
-const md5 = require('md5');
+const bcrypt = require('bcrypt')
 
 const app = express()
 app.set('view engine', 'ejs');
@@ -29,6 +29,7 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+const saltRounds = 10;
 
 app.get('/', (req,res)=>{
     res.render('home')
@@ -44,15 +45,17 @@ app.get('/login', (req, res)=>{
 
 app.post('/login', async (req,res)=>{
     const email = req.body.username;
-    const password = md5(req.body.password);
+    const password = req.body.password;
 
     await User.findOne({email: email})
     .then(foundUser=>{
-        if (foundUser.password === password){
-            res.render('secrets')
-        } else{
-            res.send({message: "Username and password do no match"})
-        }
+        bcrypt.compare(password, foundUser.password, function(err, result) {
+            if (result == true){
+                res.render('secrets')
+            } else{
+                console.log("Error finding match: "+ err)
+            }
+        });
     }).catch(err=>{
         console.log('No User found: '+ err)
         res.redirect('/login')
@@ -62,14 +65,23 @@ app.post('/login', async (req,res)=>{
 
 app.post('/register', (req,res)=>{
     const email = req.body.username;
-    const password = md5(req.body.password);
-
-    const newUser = new User({
-        email: email,
-        password: password
+    const password = req.body.password
+    bcrypt.hash(password, saltRounds, function(err, hash) {
+        // Store hash in your password DB.
+        if (!err){
+            const newUser = new User({
+                email: email,
+                password: hash
+            });
+            newUser.save()
+            res.render('secrets')
+        } else{
+            res.send({message: "Error creating account"})
+        }
+        
     });
-    newUser.save()
-    res.render('secrets')
+
+    
 })
 
 
