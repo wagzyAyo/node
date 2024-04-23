@@ -31,7 +31,7 @@ mongoose.connect("mongodb://localhost:27017/secrets")
 
 
 const userSchema = mongoose.Schema({
-    email: String,
+    username: String,
     password: String
 });
 userSchema.plugin(passportLocalMongoose)
@@ -65,7 +65,19 @@ app.get('/secrets', (req,res)=>{
 })
 
 app.post('/login', async (req,res)=>{
-  
+  const user = new User({
+    username: req.body.username,
+    password: req.body.password
+  });
+  req.login(user, (err)=>{
+    if(!err){
+        passport.authenticate('local')(req, res, ()=>{
+            res.redirect('/secrets')
+        })
+    } else{
+        console.log("Problem authenticating user: " + err)
+    }
+  })
 
 });
 
