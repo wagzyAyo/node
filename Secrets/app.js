@@ -62,6 +62,11 @@ app.get('/secrets', (req,res)=>{
     }else{
         res.redirect('login')
     }
+});
+
+app.get('/logout', (req, res)=>{
+    req.logOut()
+    res.redirect('/')
 })
 
 app.post('/login', async (req,res)=>{
