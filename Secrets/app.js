@@ -58,7 +58,14 @@ app.get('/login', (req, res)=>{
 });
 
 app.get('/secrets', (req,res)=>{
-   res.render('secrets')
+    User.find({secret: {$ne: null}})
+    .then(users=>{
+        console.log(users)
+        res.render('secrets', {usersWithSecret: users})
+    }).catch(err=>{
+        console.log("Error getting users with secrets: " + err)
+    })
+  
 });
 
 app.get('/submit', (req,res)=>{
