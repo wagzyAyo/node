@@ -32,7 +32,8 @@ mongoose.connect("mongodb://localhost:27017/secrets")
 
 const userSchema = mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    secret: String
 });
 userSchema.plugin(passportLocalMongoose)
 
@@ -57,12 +58,31 @@ app.get('/login', (req, res)=>{
 });
 
 app.get('/secrets', (req,res)=>{
+   res.render('secrets')
+});
+
+app.get('/submit', (req,res)=>{
+    
     if (req.isAuthenticated()){
-        res.render('secrets');
-    }else{
+        res.render('submit')
+    } else{
         res.redirect('login')
     }
 });
+
+app.post('/submit',(req, res)=>{
+    const userSecret = req.body.secret;
+    console.log(req.user.id);
+    User.findById(req.user.id)
+    .then(foundUser=>{
+        foundUser.secret = userSecret;
+        foundUser.save()
+        .then(res.redirect('secrets'))
+    })
+    .catch(err=>{
+        console.log("Error getting user: "+ err)
+    })
+})
 
 app.get('/logout', (req, res)=>{
     req.logOut()
